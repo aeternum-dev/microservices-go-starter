@@ -1,38 +1,28 @@
 package main
 
 import (
-	"context"
-	"encoding/json"
+	"log"
 	"net/http"
-	"ride-sharing/services/trip-service/internal/domain"
+	h "ride-sharing/services/trip-service/internal/infrastructure/http"
 	"ride-sharing/services/trip-service/internal/infrastructure/repository"
 	"ride-sharing/services/trip-service/internal/service"
 )
 
 func main() {
-	ctx := context.Background()
-
 	inmemRepo := repository.NewInmemRepository()
-
 	svc := service.NewService(inmemRepo)
-
-	fare := &domain.RideFareModel{
-		UserID: "42",
-	}
-
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("POST /preview", HandleTripPreview)
+	httphandler := h.HttpHandler{Service: svc}
+
+	mux.HandleFunc("POST /preview", httphandler.HandleTripPreview)
 
 	server := &http.Server{
-		Addr: ":8083",
+		Addr:    ":8083",
 		Handler: mux,
 	}
 
 	if err := server.ListenAndServe(); err != nil {
-		log.Printf("HTTP server error %v", err)
+		log.Printf("HTTP server error: %v", err)
 	}
-
-
-	
 }
