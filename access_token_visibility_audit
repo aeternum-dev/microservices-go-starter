@@ -1,0 +1,6 @@
+API audit:
+- Upon fist observation /users/me endpoint after HTTP GET request responds with a response body containing the user's access_token
+- PrivateUserResponse Response class contained access token related attributes, they've been removed
+- Frontend works fine
+- Navbar uniintoitively first, but no breaking errors
+- PostgreSQL db created and initalized for testing APIs requiring sysadmin auth 

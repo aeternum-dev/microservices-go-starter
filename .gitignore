@@ -62,3 +62,4 @@ build/
 
 # Secrets
 secrets.yaml
+.aider*
